@@ -14,15 +14,17 @@ public class ProdutoService {
 
         app.insertProduto(produto);
 
-        System.out.println("Produto: " + produto.getNome() + " inserido");
+        System.out.println("Executando Select Geral na Tabela de Cliente");
+
+        app.selectFullProduto();
+
+        System.out.println("Executando Select especifico na Tabela de Cliente");
+
+        app.selectProduto(produto);
 
         app.updateProduto(produto);
 
-        System.out.println("Produto: " + produto.getNome() + " atualizado");
-
         app.deleteProduto(produto);
-
-        System.out.println("Produto: " + produto.getNome() + " deletado");
     }
 
 }

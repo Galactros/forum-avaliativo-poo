@@ -5,7 +5,9 @@ import com.jamal.forum.avaliativo.model.Produto;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 public class PostgresConnection {
 
@@ -79,6 +81,52 @@ public class PostgresConnection {
         }
     }
 
+    public void selectFullCliente() {
+        String SQLselect = " SELECT * FROM cliente";
+
+        try ( Connection dbcon = dbcon();) {
+
+            Statement stmt = dbcon.createStatement();
+            ResultSet rs = stmt.executeQuery(SQLselect);
+            {
+                while (rs.next()) {
+                    System.out.println(rs.getString("cpf") + "\t"
+                            + rs.getString("nome") + "\t"
+                            + rs.getString("fone") + "\t"
+                            + rs.getString("endereco"));
+
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void selectCliente(Cliente cliente) {
+        String SQLselect = " SELECT * FROM cliente where cpf = ?";
+
+        try ( Connection dbcon = dbcon();) {
+
+            PreparedStatement prepareStatement = dbcon.prepareStatement(SQLselect);
+
+            prepareStatement.setString(1, cliente.getCPF());
+            ResultSet rs = prepareStatement.executeQuery();
+            {
+                while (rs.next()) {
+                    System.out.println(rs.getString("cpf") + "\t"
+                            + rs.getString("nome") + "\t"
+                            + rs.getString("fone") + "\t"
+                            + rs.getString("endereco"));
+
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
     public void insertProduto(Produto produto) {
         String SQLinsert = "INSERT INTO produto(codigo,nome,preco) "
                 + "VALUES(?,?,?)";
@@ -125,6 +173,50 @@ public class PostgresConnection {
             prepareStatement.setInt(1, produto.getCodigo());
 
             prepareStatement.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void selectFullProduto() {
+        String SQLselect = " SELECT * FROM produto";
+
+        try ( Connection dbcon = dbcon();) {
+
+            Statement stmt = dbcon.createStatement();
+            ResultSet rs = stmt.executeQuery(SQLselect);
+            {
+                while (rs.next()) {
+                    System.out.println(rs.getString("codigo") + "\t"
+                            + rs.getString("nome") + "\t"
+                            + rs.getString("preco"));
+
+                }
+            }
+
+        } catch (SQLException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public void selectProduto(Produto produto) {
+        String SQLselect = " SELECT * FROM produto where codigo = ?";
+
+        try ( Connection dbcon = dbcon();) {
+
+            PreparedStatement prepareStatement = dbcon.prepareStatement(SQLselect);
+
+            prepareStatement.setInt(1, produto.getCodigo());
+            ResultSet rs = prepareStatement.executeQuery();
+            {
+                while (rs.next()) {
+                    System.out.println(rs.getString("codigo") + "\t"
+                            + rs.getString("nome") + "\t"
+                            + rs.getString("preco"));
+
+                }
+            }
 
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
